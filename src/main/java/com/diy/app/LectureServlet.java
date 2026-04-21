@@ -65,7 +65,7 @@ public class LectureServlet  extends HttpServlet {
      * 강의 수정
      */
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         System.out.println("[PUT] lecture modify");
 
         // req: id, name, price
@@ -83,6 +83,20 @@ public class LectureServlet  extends HttpServlet {
                 break;
             }
         }
+    }
+
+    /**
+     * 강의 삭제
+     */
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("[DELETE] lecture delete");
+
+        // req: id
+        Map<String, Object> payload = objectMapper.readValue(req.getReader(), Map.class);
+        Long id = Long.valueOf(payload.get("id").toString());
+
+        lectures.removeIf(lecture -> id.equals(lecture.getId()));
     }
 
     public static class Lecture {
